@@ -24,4 +24,25 @@ public class UserService {
 	public User save(User obj) {
 		return repository.save(obj);
 	}
+	
+	public User update(User obj, User refObj) {
+		obj = findById(obj.getId());
+		obj = updateData(obj, refObj);
+		return obj;
+	}
+
+	private User updateData(User obj, User refObj) {
+		obj.setFisrtName(refObj.getFisrtName());
+		obj.setLastName(refObj.getLastName());
+		obj.setDocument(refObj.getDocument());
+		obj.setBirthday(refObj.getBirthday());
+		obj.setUserType(refObj.getUserType());
+		
+		return obj;
+	}
+	
+	public void deleteById(String id) {
+		findById(id);
+		repository.deleteById(id);
+	}
 }
