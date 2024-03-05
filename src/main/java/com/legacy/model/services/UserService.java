@@ -16,4 +16,12 @@ public class UserService {
 	public List<User> findAll() {
 		return repository.findAll();
 	}
+
+	public User findById(String id) {
+		return repository.findById(id).orElseThrow(()-> new RuntimeException("Entity not found!"));
+	}
+
+	public User save(User obj) {
+		return repository.save(obj);
+	}
 }
