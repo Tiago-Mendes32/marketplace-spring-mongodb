@@ -16,7 +16,7 @@ public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Long id;
+	private String id;
 	private String name;
 	private LocalDate createDate;
 	
@@ -25,17 +25,17 @@ public class Product implements Serializable{
 	public Product() {
 	}
 
-	public Product(Long id, String name, LocalDate createDate) {
+	public Product(String id, String name, LocalDate createDate) {
 		this.id = id;
 		this.name = name;
 		this.createDate = createDate;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -1,4 +1,4 @@
-package com.legacy.repositories;
+package com.legacy.model.repositories;
 
 import com.legacy.model.entities.User;
 
