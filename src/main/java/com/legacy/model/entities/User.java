@@ -25,12 +25,13 @@ public class User implements Serializable{
 	public User() {
 	}
 
-	public User(String id, String fisrtName, String lastName, String document, LocalDate birthday) {
+	public User(String id, String fisrtName, String lastName, String document, LocalDate birthday, UserType userType) {
 		this.id = id;
 		this.fisrtName = fisrtName;
 		this.lastName = lastName;
 		this.document = document;
 		this.birthday = birthday;
+		this.userType = userType;
 	}
 
 	public String getId() {
