@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.legacy.model.entities.DTO.UserDTO;
 import com.legacy.model.entities.enums.OrderStatus;
 
 @Document
@@ -18,14 +19,14 @@ public class Order {
 	private Instant moment;
 	private OrderStatus orderStatus;
 	
-	private User seller;
-	private User payer;
+	private UserDTO seller;
+	private UserDTO payer;
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 	
 	public Order() {
 	}
 
-	public Order(String id, Instant moment, OrderStatus orderStatus, User seller, User payer) {
+	public Order(String id, Instant moment, OrderStatus orderStatus, UserDTO seller, UserDTO payer) {
 		this.id = id;
 		this.moment = moment;
 		this.orderStatus = orderStatus;
@@ -57,19 +58,19 @@ public class Order {
 		this.orderStatus = orderStatus;
 	}
 
-	public User getSeller() {
+	public UserDTO getSeller() {
 		return seller;
 	}
 
-	public void setSeller(User seller) {
+	public void setSeller(UserDTO seller) {
 		this.seller = seller;
 	}
 
-	public User getPayer() {
+	public UserDTO getPayer() {
 		return payer;
 	}
 
-	public void setPayer(User payer) {
+	public void setPayer(UserDTO payer) {
 		this.payer = payer;
 	}
 

@@ -1,43 +1,33 @@
 package com.legacy.model.entities;
 
-import java.util.Objects;
+import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
+import com.legacy.model.entities.DTO.ProductDTO;
 
-public class OrderItem {
+public class OrderItem implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
-	@Id
-	private String id;
-	private Product product;
+	private ProductDTO product;
 	private Integer quantity;
 	private Double price;
+
 	
 	public OrderItem() {
 	}
 
-	public OrderItem(String id, Product product, Integer quantity, Double price) {
-		this.id = id;
+	public OrderItem(ProductDTO product, Integer quantity, Double price) {
 		this.product = product;
 		this.quantity = quantity;
 		this.price = price;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public Product getProduct() {
+	public ProductDTO getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductDTO product) {
 		this.product = product;
 	}
-
+	
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -52,22 +42,5 @@ public class OrderItem {
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OrderItem other = (OrderItem) obj;
-		return Objects.equals(id, other.id);
 	}
 }

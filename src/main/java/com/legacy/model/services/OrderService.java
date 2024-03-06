@@ -16,4 +16,32 @@ public class OrderService {
 	public List<Order> findAll() {
 		return repository.findAll();
 	}
+
+	public Order findById(String id) {
+		return repository.findById(id).orElseThrow(()-> new RuntimeException("Entity not found!"));
+	}
+
+	public Order save(Order obj) {
+		return repository.save(obj);
+	}
+	
+	public Order update(Order obj, Order refObj) {
+		obj = updateData(obj, refObj);
+		return save(obj);
+	}
+
+	private Order updateData(Order obj, Order refObj) {
+		refObj.setMoment(obj.getMoment());
+		refObj.setOrderStatus(obj.getOrderStatus());
+		refObj.setPayer(obj.getPayer());
+		refObj.setSeller(obj.getSeller());
+		return refObj;
+	}
+	
+	public void deleteById(String id) {
+		findById(id);
+		repository.deleteById(id);
+	}	
 }
+
+

@@ -1,11 +1,13 @@
 package com.legacy.model.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.legacy.model.entities.User;
+import com.legacy.model.entities.DTO.UserDTO;
 import com.legacy.model.repositories.UserRepository;
 
 @Service
@@ -26,23 +28,39 @@ public class UserService {
 	}
 	
 	public User update(User obj, User refObj) {
-		obj = findById(obj.getId());
-		obj = updateData(obj, refObj);
-		return obj;
+		refObj = updateData(obj, refObj);
+		return save(refObj);
 	}
 
 	private User updateData(User obj, User refObj) {
-		obj.setFisrtName(refObj.getFisrtName());
-		obj.setLastName(refObj.getLastName());
-		obj.setDocument(refObj.getDocument());
-		obj.setBirthday(refObj.getBirthday());
-		obj.setUserType(refObj.getUserType());
+		refObj.setFisrtName(obj.getFisrtName());
+		refObj.setLastName(obj.getLastName());
+		refObj.setDocument(obj.getDocument());
+		refObj.setBirthday(obj.getBirthday());
+		refObj.setUserType(obj.getUserType());
 		
-		return obj;
+		return refObj;
 	}
 	
 	public void deleteById(String id) {
 		findById(id);
 		repository.deleteById(id);
 	}
+	
+	public UserDTO convertDTO(User obj) {
+		obj = findById(obj.getId());
+		return new UserDTO(obj.getId(), obj.getFisrtName(), obj.getDocument());
+	}
+	
+	public List<UserDTO> convertListDTO(List<User> listObj) {
+		List<User> list = findAll();
+		List<UserDTO> listDTO = new ArrayList<>();
+		
+		for(User x: list) {
+			listDTO.add(convertDTO(x));
+		}
+		return listDTO;
+	}
 }
+
+

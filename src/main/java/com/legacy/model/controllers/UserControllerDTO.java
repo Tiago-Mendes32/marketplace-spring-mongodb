@@ -15,38 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.legacy.model.entities.Product;
-import com.legacy.model.services.ProductService;
+import com.legacy.model.entities.User;
+import com.legacy.model.entities.DTO.UserDTO;
+import com.legacy.model.services.UserService;
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductController {
+@RequestMapping(value = "/users/dto")
+public class UserControllerDTO {
 
 	@Autowired
-	ProductService service;
-
-	@PostMapping
-	public ResponseEntity<Product> save(@RequestBody Product obj) {
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(location).body(service.save(obj));
-	}
+	UserService service;
 
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<List<UserDTO>> findAll() {
+		List<User> listObj = service.findAll();
+		return ResponseEntity.ok().body(service.convertListDTO(listObj));
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(service.findById(id));
+	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(service.convertDTO(obj));
 	}
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Product> update(@RequestBody Product obj, @PathVariable String id) {
-		Product refObj = service.findById(id);
-		return ResponseEntity.ok().body(service.update(obj, refObj));
-	}
-	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.deleteById(id);

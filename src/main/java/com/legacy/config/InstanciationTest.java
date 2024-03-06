@@ -18,6 +18,8 @@ import com.legacy.model.entities.enums.UserType;
 import com.legacy.model.repositories.OrderRepository;
 import com.legacy.model.repositories.ProductRepository;
 import com.legacy.model.repositories.UserRepository;
+import com.legacy.model.services.ProductService;
+import com.legacy.model.services.UserService;
 
 @Configuration
 public class InstanciationTest implements CommandLineRunner {
@@ -27,6 +29,10 @@ public class InstanciationTest implements CommandLineRunner {
 	ProductRepository productRepository;
 	@Autowired
 	OrderRepository orderRepository;
+	@Autowired
+	UserService userService;
+	@Autowired
+	ProductService productService;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -37,13 +43,16 @@ public class InstanciationTest implements CommandLineRunner {
 		User user = new User(null, "Tiago", "Mendes", "50434220841", LocalDate.parse("2001-07-02"), UserType.SELLER);		
 		userRepository.save(user);
 		
+		User user2 = new User(null, "Lucas", "Mendes", "50434220841", LocalDate.parse("2001-07-02"), UserType.SELLER);		
+		userRepository.save(user2);
+		
 		Product prod = new Product(null, "Redmi Note 12 6Gb", LocalDate.now());
 		prod.getCategories().addAll(Arrays.asList(Category.SMARTPHONES));
 		productRepository.save(prod);
 		
-		OrderItem orderItem = new OrderItem(null, prod, 20, 15.99);
+		OrderItem orderItem = new OrderItem(productService.convertDTO(prod), 20, 15.99);
 		
-		Order ord = new Order(null, Instant.now(), OrderStatus.AWAITING_SHIPMENT, user, null);
+		Order ord = new Order(null, Instant.now(), OrderStatus.AWAITING_SHIPMENT, userService.convertDTO(user), userService.convertDTO(user2));
 		ord.getItems().add(orderItem);
 		orderRepository.save(ord);
 	}
