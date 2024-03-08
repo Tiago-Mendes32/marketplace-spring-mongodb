@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.legacy.model.entities.Order;
 import com.legacy.model.services.OrderService;
+import com.legacy.util.MediaType;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -25,29 +26,33 @@ public class OrderController {
 	@Autowired
 	OrderService service;
 
-	@PostMapping
+	@PostMapping(
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+			consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<Order> save(@RequestBody Order obj) {
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(location).body(service.save(obj));
 	}
 
-	@GetMapping
+	@GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<List<Order>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<Order> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/{id}",
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+			consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<Order> update(@RequestBody Order obj, @PathVariable String id) {
 		Order refObj = service.findById(id);
 		return ResponseEntity.ok().body(service.update(obj, refObj));
 	}
 	
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();

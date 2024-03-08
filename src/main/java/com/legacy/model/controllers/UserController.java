@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.legacy.model.entities.User;
 import com.legacy.model.services.UserService;
+import com.legacy.util.MediaType;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -25,29 +26,34 @@ public class UserController {
 	@Autowired
 	UserService service;
 
-	@PostMapping
+	@PostMapping(
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
+			,consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<User> save(@RequestBody User obj) {
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId())
+				.toUri();
 		return ResponseEntity.created(location).body(service.save(obj));
 	}
 
-	@GetMapping
+	@GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
 	public ResponseEntity<List<User>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
 	public ResponseEntity<User> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/{id}",
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+			consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<User> update(@RequestBody User obj, @PathVariable String id) {
 		User refObj = service.findById(id);
 		return ResponseEntity.ok().body(service.update(obj, refObj));
 	}
-	
-	@DeleteMapping(value = "/{id}")
+
+	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();
