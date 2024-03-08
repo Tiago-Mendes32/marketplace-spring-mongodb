@@ -23,7 +23,7 @@ public class ControllerExceptionHandler {
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<StandardError> genericException(ResourceNotFoundException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> genericException(Exception e, HttpServletRequest request) {
 		String error = "Internal exception";
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
@@ -31,9 +31,17 @@ public class ControllerExceptionHandler {
 	}
 	
 	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<StandardError> genericRunTimeException(ResourceNotFoundException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> genericRunTimeException(RuntimeException e, HttpServletRequest request) {
 		String error = "Internal runtime exception";
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(IllegalStateException.class)
+	public ResponseEntity<StandardError> illegalStateException(IllegalStateException e, HttpServletRequest request) {
+		String error = "Internal runtime exception";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
