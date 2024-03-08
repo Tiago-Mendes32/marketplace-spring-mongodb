@@ -5,10 +5,12 @@ import java.util.Objects;
 public class ProductDTO {
 	private String id;
 	private String name;
+	private Double price;
 	
-	public ProductDTO(String id, String name) {
+	public ProductDTO(String id, String name, Double price) {
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 
 	public String getId() {
@@ -27,6 +29,14 @@ public class ProductDTO {
 		this.name = name;
 	}
 
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -43,6 +53,4 @@ public class ProductDTO {
 		ProductDTO other = (ProductDTO) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 }

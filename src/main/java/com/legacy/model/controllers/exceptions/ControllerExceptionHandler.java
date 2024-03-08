@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.legacy.model.services.exceptions.InsuficientStockException;
 import com.legacy.model.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +42,14 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(IllegalStateException.class)
 	public ResponseEntity<StandardError> illegalStateException(IllegalStateException e, HttpServletRequest request) {
 		String error = "Internal runtime exception";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(InsuficientStockException.class)
+	public ResponseEntity<StandardError> InsuficientStockException(InsuficientStockException e, HttpServletRequest request) {
+		String error = "Invalid quantity item";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);

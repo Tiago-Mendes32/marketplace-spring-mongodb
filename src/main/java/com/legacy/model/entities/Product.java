@@ -19,16 +19,20 @@ public class Product implements Serializable{
 	private String id;
 	private String name;
 	private LocalDate createDate;
+	private Double price;
+	private Integer quantity;
 	
 	List<Category> categories = new ArrayList<Category>();
 
 	public Product() {
 	}
 
-	public Product(String id, String name, LocalDate createDate) {
+	public Product(String id, String name, LocalDate createDate, Double price, Integer quantity) {
 		this.id = id;
 		this.name = name;
 		this.createDate = createDate;
+		this.price = price;
+		this.quantity = quantity;
 	}
 
 	public String getId() {
@@ -57,6 +61,22 @@ public class Product implements Serializable{
 
 	public List<Category> getCategories() {
 		return categories;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

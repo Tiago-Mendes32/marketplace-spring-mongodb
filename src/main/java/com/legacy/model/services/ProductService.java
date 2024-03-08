@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.legacy.model.entities.Product;
 import com.legacy.model.entities.DTO.ProductDTO;
 import com.legacy.model.repositories.ProductRepository;
+import com.legacy.model.services.exceptions.InsuficientStockException;
 import com.legacy.model.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -47,7 +48,7 @@ public class ProductService {
 	
 	public ProductDTO convertDTO(Product obj) {
 		obj = findById(obj.getId());
-		return new ProductDTO(obj.getId(), obj.getName());
+		return new ProductDTO(obj.getId(), obj.getName(), obj.getPrice());
 	}
 	
 	public List<ProductDTO> convertListDTO(List<Product> listObj) {
@@ -58,6 +59,13 @@ public class ProductService {
 			listDTO.add(convertDTO(x));
 		}
 		return listDTO;
+	}
+	
+	public Integer stockValidation(Product prod, Integer qnt) throws InsuficientStockException {
+		if (prod.getQuantity() < qnt) {
+			throw new InsuficientStockException("Stock not suficient! Available stock: " + prod.getQuantity());
+		}
+		return qnt;
 	}
 }
 

@@ -8,17 +8,17 @@ public class OrderItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private ProductDTO product;
-	private Integer quantity;
+	private Integer itemQuantity;
 	private Double price;
 
-	
 	public OrderItem() {
 	}
 
 	public OrderItem(ProductDTO product, Integer quantity, Double price) {
 		this.product = product;
-		this.quantity = quantity;
+		this.itemQuantity = quantity;
 		this.price = price;
+
 	}
 	public ProductDTO getProduct() {
 		return product;
@@ -28,12 +28,12 @@ public class OrderItem implements Serializable{
 		this.product = product;
 	}
 	
-	public Integer getQuantity() {
-		return quantity;
+	public Integer getItemQuantity() {
+	    return itemQuantity;
 	}
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+	public void setItemQuantity(Integer quantity) {
+	    this.itemQuantity = quantity;
 	}
 
 	public Double getPrice() {
@@ -42,5 +42,9 @@ public class OrderItem implements Serializable{
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public static Double getSubtotal(Product prod) {
+		return prod.getPrice()*prod.getQuantity();
 	}
 }
