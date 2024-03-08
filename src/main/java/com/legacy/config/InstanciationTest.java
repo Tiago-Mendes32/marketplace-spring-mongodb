@@ -46,13 +46,14 @@ public class InstanciationTest implements CommandLineRunner {
 		User user2 = new User(null, "Lucas", "Mendes", "50434220841", LocalDate.parse("2001-07-02"), UserType.SELLER);		
 		userRepository.save(user2);
 		
-		Product prod = new Product(null, "Redmi Note 12 6Gb", LocalDate.now());
+		Product prod = new Product(null, "Redmi Note 12 6Gb", LocalDate.now(), 999.99, 150);
 		prod.getCategories().addAll(Arrays.asList(Category.SMARTPHONES));
 		productRepository.save(prod);
 		
-		OrderItem orderItem = new OrderItem(productService.convertDTO(prod), 20, 15.99);
-		
 		Order ord = new Order(null, Instant.now(), OrderStatus.AWAITING_SHIPMENT, userService.convertDTO(user), userService.convertDTO(user2));
+		
+		OrderItem orderItem = new OrderItem(productService.convertDTO(prod), productService.stockValidation(prod, 25), OrderItem.getSubtotal(prod));
+		
 		ord.getItems().add(orderItem);
 		orderRepository.save(ord);
 	}
