@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,33 +28,33 @@ public class UserController {
 	UserService service;
 
 	@PostMapping(
-			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
-			,consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}
+			,consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ResponseEntity<User> save(@RequestBody User obj) {
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId())
 				.toUri();
 		return ResponseEntity.created(location).body(service.save(obj));
 	}
 
-	@GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
+	@GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ResponseEntity<List<User>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ResponseEntity<User> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
 	@PutMapping(value = "/{id}",
-			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
-			consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML},
+			consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ResponseEntity<User> update(@RequestBody User obj, @PathVariable String id) {
 		User refObj = service.findById(id);
 		return ResponseEntity.ok().body(service.update(obj, refObj));
 	}
 
-	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();

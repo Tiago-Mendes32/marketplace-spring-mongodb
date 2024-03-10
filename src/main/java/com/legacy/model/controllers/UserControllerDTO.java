@@ -23,20 +23,20 @@ public class UserControllerDTO {
 	UserService service;
 
 	@GetMapping(
-			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> listObj = service.findAll();
 		return ResponseEntity.ok().body(service.convertListDTO(listObj));
 	}
 
 	@GetMapping(value = "/{id}", 
-			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(service.convertDTO(obj));
 	}
 
-	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();
